@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-programozás-1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background: #0073e6;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        nav {
+            background: #004a99;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+        }
+        nav a.active {
+            background: #ffa500;
+        }
+        main {
+            display: flex;
+            width: 80%;
+            margin: 20px 0;
+        }
+        aside {
+            width: 20%;
+            background: #f0f0f0;
+            padding: 10px;
+        }
+        .content {
+            width: 80%;
+            padding: 10px;
+        }
+        footer {
+            background: #0073e6;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+    <nav>
+        <a href="index.html" class="active">Kezdőlap</a>
+        <a href="page1.html">Oldal 1</a>
+        <a href="page2.html">Oldal 2</a>
+    </nav>
+    <main>
+        <aside>
+            <p>Oldalsáv tartalma</p>
+        </aside>
+        <div class="content">
+            <h2>Kezdőlap</h2>
+            <p>Üdvözöljük a Web-programozás-1 házi feladat oldalán!</p>
+        </div>
+    </main>
+    <footer>
+        &copy; 2025 Web-programozás-1
+    </footer>
+</body>
+</html>
