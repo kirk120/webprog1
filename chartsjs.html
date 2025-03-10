@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChartJS Táblázat</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        table { border-collapse: collapse; width: 50%; margin-bottom: 20px; }
+        th, td { border: 1px solid black; padding: 10px; text-align: center; cursor: pointer; }
+        th { background-color: #0073e6; color: white; }
+        tr:hover { background-color: #ddd; }
+    </style>
+</head>
+<body>
+    <h2>Válassz ki egy sort a táblázatból</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+    
+    <canvas id="myChart" width="400" height="200"></canvas>
+    
+    <script>
+        const tableBody = document.getElementById("tableBody");
+        const chartCanvas = document.getElementById("myChart");
+        let myChart;
+
+        // Generáljunk egy véletlenszerű 5x5-ös táblázatot
+        const tableData = [];
+        for (let i = 0; i < 5; i++) {
+            let row = [];
+            for (let j = 0; j < 5; j++) {
+                row.push(Math.floor(Math.random() * 100));
+            }
+            tableData.push(row);
+        }
+        
+        tableData.forEach(row => {
+            let tr = document.createElement("tr");
+            row.forEach(num => {
+                let td = document.createElement("td");
+                td.textContent = num;
+                tr.appendChild(td);
+            });
+            tr.addEventListener("click", () => updateChart(row));
+            tableBody.appendChild(tr);
+        });
+        
+        function updateChart(data) {
+            if (myChart) myChart.destroy();
+            myChart = new Chart(chartCanvas, {
+                type: 'line',
+                data: {
+                    labels: ['1', '2', '3', '4', '5'],
+                    datasets: [{
+                        label: 'Kiválasztott sor',
+                        data: data,
+                        borderColor: 'blue',
+                        fill: false,
+                        tension: 0.1
+                    }]
+                }
+            });
+        }
+    </script>
+</body>
+</html>
