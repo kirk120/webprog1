@@ -13,72 +13,113 @@
             flex-direction: column;
             align-items: center;
         }
+
         header {
-            background: #0073e6;
+            background-color: #1976d2;
             color: white;
-            padding: 10px;
+            padding: 20px;
             text-align: center;
             width: 100%;
         }
+
+        header h1 {
+            font-size: clamp(20px, 3vw, 32px);
+            font-weight: bold;
+            margin: 0;
+        }
+
         nav {
-            background: #004a99;
+            background-color: #1976d2;
             width: 100%;
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
         }
+
         nav a {
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
             display: block;
+            transition: all 0.2s ease-in-out;
         }
+
         nav a.active {
-            background: #ffa500;
+            background-color: #64b5f6;
+            font-weight: bold;
         }
+
+        /* aláhúzás rámutatáskor */
+        nav a:hover {
+            text-decoration: underline;
+        }
+
         main {
             display: flex;
             width: 80%;
             margin: 20px 0;
         }
+
+        aside, .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+            font-size: clamp(18px, 2.5vw, 28px);
+            min-height: 300px;
+            padding: 15px;
+        }
+
         aside {
             width: 20%;
-            background: #f0f0f0;
-            padding: 10px;
+            background-color: #f2f2f2;
         }
+
         .content {
             width: 80%;
-            padding: 10px;
         }
+
         footer {
-            background: #0073e6;
+            background-color: #1976d2;
             color: white;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             width: 100%;
         }
     </style>
 </head>
 <body>
+
     <header>
         <h1>Web-programozás-1 Előadás Házi feladat</h1>
     </header>
+
     <nav>
         <a href="index.html" class="active">Kezdőlap</a>
-        <a href="page1.html">Oldal 1</a>
-        <a href="page2.html">Oldal 2</a>
+        <a href="tablazat.html">Táblázat</a>
+        <a href="html5.html">HTML5</a>
+        <a href="chartsjs.html">ChartJS</a>
+        <a href="ajax.html">AJAX</a>
+        <a href="oojs.html">OOJS</a>
+        <a href="react.html">React</a>
     </nav>
+
     <main>
         <aside>
-            <p>Oldalsáv tartalma</p>
+            <p>Kezdőlap</p>
         </aside>
+
         <div class="content">
-            <h2>Kezdőlap</h2>
-            <p>Üdvözöljük a Web-programozás-1 házi feladat oldalán!</p>
+            <p>Üdvözöljük a Web-programozás-1 házi feladat bemutató oldalán!</p>
         </div>
     </main>
+
     <footer>
-        Készítette: Vágány Zoltán - GF8NSN
-                    Fidesz János  - JQVPJ7
+        Készítők:<br>
+        Vágány Zoltán – GF8NSN<br>
+        Fidesz János – JQVPJ7
     </footer>
+
 </body>
 </html>
