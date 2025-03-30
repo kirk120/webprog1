@@ -1,124 +1,73 @@
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Táblázat CRUD</title>
+    <title>Táblázat</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
-        th { background-color: #0073e6; color: white; cursor: pointer; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
-        input, button { margin: 5px; padding: 5px; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        header, footer { background-color: #1976d2; color: white; padding: 20px; text-align: center; width: 100%; }
+        nav { background-color: #1976d2; width: 100%; display: flex; justify-content: center; }
+        nav a { color: white; text-decoration: none; padding: 12px 20px; display: block; }
+        nav a.active { background-color: #64b5f6; font-weight: bold; }
+        main { display: flex; width: 80%; margin: 20px 0; }
+        aside { width: 20%; background-color: #f2f2f2; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .content { width: 80%; padding: 20px; }
+        table, th, td { border: 1px solid #aaa; border-collapse: collapse; }
+        th, td { padding: 8px; }
+        input { margin: 5px 0; }
     </style>
 </head>
 <body>
-    <h1>CRUD Táblázat</h1>
-    <input type="text" id="search" placeholder="Keresés..." onkeyup="filterTable()">
-    <br>
-    <table>
-        <thead>
-            <tr>
-                <th onclick="sortTable(0)">ID</th>
-                <th onclick="sortTable(1)">Név</th>
-                <th onclick="sortTable(2)">Kor</th>
-                <th onclick="sortTable(3)">Város</th>
-                <th>Műveletek</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-    </table>
-    <br>
-    <input type="text" id="name" placeholder="Név" required>
-    <input type="number" id="age" placeholder="Kor" min="1" max="120" required>
-    <input type="text" id="city" placeholder="Város" required>
-    <button onclick="addRow()">Hozzáadás</button>
 
-    <script>
-        let tableData = [];
+<header>
+    <h1>Web-programozás-1 Előadás Házi feladat</h1>
+</header>
 
-        function renderTable() {
-            const tbody = document.getElementById("tableBody");
-            tbody.innerHTML = "";
-            tableData.forEach((row, index) => {
-                let tr = `<tr>
-                    <td>${index + 1}</td>
-                    <td>${row.name}</td>
-                    <td>${row.age}</td>
-                    <td>${row.city}</td>
-                    <td>
-                        <button onclick="editRow(${index})">✏️</button>
-                        <button onclick="deleteRow(${index})">🗑️</button>
-                    </td>
-                </tr>`;
-                tbody.innerHTML += tr;
-            });
-        }
+<nav>
+    <a href="index.html">Kezdőlap</a>
+    <a href="#" class="active">Táblázat</a>
+    <a href="#">HTML5</a>
+    <a href="#">AJAX</a>
+</nav>
 
-        function addRow() {
-            let name = document.getElementById("name").value;
-            let age = document.getElementById("age").value;
-            let city = document.getElementById("city").value;
-            
-            if (!name || !age || !city) {
-                alert("Minden mező kitöltése kötelező!");
-                return;
-            }
-            tableData.push({ name, age, city });
-            renderTable();
-            document.getElementById("name").value = "";
-            document.getElementById("age").value = "";
-            document.getElementById("city").value = "";
-        }
+<main>
+    <aside>
+        Táblázat
+    </aside>
+    <div class="content">
+       
+        <form>
+            <input type="text" placeholder="Név">
+            <input type="text" placeholder="Email">
+            <input type="text" placeholder="Város">
+            <input type="text" placeholder="Kor">
+            <button type="button">Hozzáadás</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Név</th>
+                    <th>Email</th>
+                    <th>Város</th>
+                    <th>Kor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
 
-        function editRow(index) {
-            let newName = prompt("Új név:", tableData[index].name);
-            let newAge = prompt("Új kor:", tableData[index].age);
-            let newCity = prompt("Új város:", tableData[index].city);
-            
-            if (newName && newAge && newCity) {
-                tableData[index] = { name: newName, age: newAge, city: newCity };
-                renderTable();
-            }
-        }
+<footer>
+    Készítők: Vágány Zoltán (GF8NSN), Fidesz János (JQVPJ7)
+</footer>
 
-        function deleteRow(index) {
-            if (confirm("Biztos törölni szeretné ezt a sort?")) {
-                tableData.splice(index, 1);
-                renderTable();
-            }
-        }
-
-        function sortTable(n) {
-            tableData.sort((a, b) => {
-                let valA = Object.values(a)[n];
-                let valB = Object.values(b)[n];
-                return valA > valB ? 1 : -1;
-            });
-            renderTable();
-        }
-
-        function filterTable() {
-            let input = document.getElementById("search").value.toLowerCase();
-            let filteredData = tableData.filter(row =>
-                Object.values(row).some(val => val.toString().toLowerCase().includes(input))
-            );
-            document.getElementById("tableBody").innerHTML = "";
-            filteredData.forEach((row, index) => {
-                let tr = `<tr>
-                    <td>${index + 1}</td>
-                    <td>${row.name}</td>
-                    <td>${row.age}</td>
-                    <td>${row.city}</td>
-                    <td>
-                        <button onclick="editRow(${index})">✏️</button>
-                        <button onclick="deleteRow(${index})">🗑️</button>
-                    </td>
-                </tr>`;
-                document.getElementById("tableBody").innerHTML += tr;
-            });
-        }
-    </script>
 </body>
 </html>
