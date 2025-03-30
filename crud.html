@@ -1,21 +1,76 @@
-
 <!DOCTYPE html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
     <title>Táblázat</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
-        header, footer { background-color: #1976d2; color: white; padding: 20px; text-align: center; width: 100%; }
-        nav { background-color: #1976d2; width: 100%; display: flex; justify-content: center; }
-        nav a { color: white; text-decoration: none; padding: 12px 20px; display: block; }
-        nav a.active { background-color: #64b5f6; font-weight: bold; }
-        main { display: flex; width: 80%; margin: 20px 0; }
-        aside { width: 20%; background-color: #f2f2f2; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .content { width: 80%; padding: 20px; }
-        table, th, td { border: 1px solid #aaa; border-collapse: collapse; }
-        th, td { padding: 8px; }
-        input { margin: 5px 0; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header, footer {
+            background-color: #1976d2;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        nav {
+            background-color: #1976d2;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            display: block;
+        }
+        nav a.active {
+            background-color: #64b5f6;
+            font-weight: bold;
+        }
+        main {
+            display: flex;
+            width: 80%;
+            margin: 20px 0;
+        }
+        aside {
+            width: 20%;
+            background-color: #f2f2f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .content {
+            width: 80%;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            table-layout: auto;
+            border-collapse: collapse;
+            border: 1px solid #aaa;
+        }
+        th, td {
+            border: 1px solid #aaa;
+            padding: 8px;
+            word-wrap: break-word;
+            text-align: left;
+        }
+        th.sortable:hover {
+            cursor: pointer;
+            background-color: #e0e0e0;
+        }
+        input {
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
@@ -36,29 +91,40 @@
         Táblázat
     </aside>
     <div class="content">
-       
-        <form>
-            <input type="text" placeholder="Név">
-            <input type="text" placeholder="Email">
-            <input type="text" placeholder="Város">
-            <input type="text" placeholder="Kor">
-            <button type="button">Hozzáadás</button>
+        <form id="form">
+            <input type="text" id="nev" placeholder="Név" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="text" id="varos" placeholder="Város" required>
+            <input type="number" id="kor" placeholder="Kor" min="0" max="120" required>
+            <button type="button" onclick="hozzaad()">Hozzáadás</button>
         </form>
-        <table>
+
+        <input type="text" id="kereses" placeholder="Keresés..." onkeyup="szures()">
+
+        <table id="tabla">
             <thead>
                 <tr>
-                    <th>Név</th>
-                    <th>Email</th>
-                    <th>Város</th>
-                    <th>Kor</th>
+                    <th class="sortable" onclick="rendez(0)">Név</th>
+                    <th class="sortable" onclick="rendez(1)">Email</th>
+                    <th class="sortable" onclick="rendez(2)">Város</th>
+                    <th class="sortable" onclick="rendez(3)">Kor</th>
+                    <th>Művelet</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tabla-torzs">
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Vágány Zoltán</td>
+                    <td>vagany.zoltan1@gmail.com</td>
+                    <td>Dabas</td>
+                    <td>48</td>
+                    <td><button onclick="torol(this)">Törlés</button></td>
+                </tr>
+                <tr>
+                    <td>Fidesz János</td>
+                    <td>fideszj@gmail.com</td>
+                    <td>Vác</td>
+                    <td>49</td>
+                    <td><button onclick="torol(this)">Törlés</button></td>
                 </tr>
             </tbody>
         </table>
@@ -68,6 +134,9 @@
 <footer>
     Készítők: Vágány Zoltán (GF8NSN), Fidesz János (JQVPJ7)
 </footer>
+
+
+<script src="crud.js" defer></script>
 
 </body>
 </html>
