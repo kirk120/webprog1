@@ -3,106 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML5 API Példák</title>
+    <title>HTML5 Features</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        nav { background: #0073e6; padding: 10px; }
-        nav a { color: white; text-decoration: none; margin: 10px; font-weight: bold; }
-        .content { display: none; padding: 20px; }
-        .active { display: block; }
-        #drag-box { width: 100px; height: 100px; background: red; cursor: move; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #1976d2;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: clamp(20px, 3vw, 32px);
+            font-weight: bold;
+            margin: 0;
+        }
+
+        nav {
+            background-color: #1976d2;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            display: block;
+            transition: all 0.2s ease-in-out;
+        }
+
+        nav a.active {
+            background-color: #64b5f6;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            margin: 20px;
+            padding: 20px;
+            width: 80%;
+            border: 1px solid #ccc;
+        }
+
+        #drag {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            color: white;
+            text-align: center;
+            line-height: 100px;
+            cursor: move;
+        }
+
+        #drop {
+            width: 200px;
+            height: 200px;
+            border: 2px dashed #000;
+            position: relative; /* Fontos az elengedési pozíciókhoz */
+        }
+
+        canvas {
+            border: 1px solid #000;
+        }
+
+        footer {
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
+
+    <header>
+        <h1>Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+
     <nav>
-        <a href="#" onclick="showContent('storage')">Web Storage</a>
-        <a href="#" onclick="showContent('worker')">Web Worker</a>
-        <a href="#" onclick="showContent('sse')">SSE</a>
-        <a href="#" onclick="showContent('geo')">Geolocation</a>
-        <a href="#" onclick="showContent('dragdrop')">Drag & Drop</a>
-        <a href="#" onclick="showContent('canvas')">Canvas</a>
-        <a href="#" onclick="showContent('svg')">SVG</a>
+        <a href="index.html">Kezdőlap</a>
+        <a href="crud.html">Táblázat</a>
+        <a href="html5.html" class="active">HTML5</a>
+        <a href="chartsjs.html">ChartJS</a>
+        <a href="ajax.html">AJAX</a>
+        <a href="oojs.html">OOJS</a>
+        <a href="react.html">React</a>
     </nav>
-    
-    <div id="storage" class="content active">
+
+    <section>
         <h2>Web Storage</h2>
-        <input type="text" id="storeInput" placeholder="Írj valamit...">
-        <button onclick="saveStorage()">Mentés</button>
-        <p id="storedValue"></p>
-    </div>
-    
-    <div id="worker" class="content">
-        <h2>Web Worker</h2>
-        <button onclick="startWorker()">Start</button>
-        <p id="workerResult"></p>
-    </div>
-    
-    <div id="sse" class="content">
-        <h2>Server-Sent Events</h2>
-        <p>Nyisd meg egy szerveren, hogy működjön.</p>
-    </div>
-    
-    <div id="geo" class="content">
-        <h2>Geolocation API</h2>
-        <button onclick="getLocation()">Helyzetem</button>
-        <p id="locationResult"></p>
-    </div>
-    
-    <div id="dragdrop" class="content">
-        <h2>Drag and Drop API</h2>
-        <div id="drag-box" draggable="true" ondragstart="drag(event)"></div>
-    </div>
-    
-    <div id="canvas" class="content">
-        <h2>Canvas</h2>
-        <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000;"></canvas>
-    </div>
-    
-    <div id="svg" class="content">
-        <h2>SVG</h2>
-        <svg width="100" height="100">
-            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-        </svg>
-    </div>
-    
-    <script>
-        function showContent(id) {
-            document.querySelectorAll('.content').forEach(div => div.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        }
-
-        function saveStorage() {
-            let value = document.getElementById("storeInput").value;
-            localStorage.setItem("storedText", value);
-            document.getElementById("storedValue").innerText = "Elmentett: " + value;
-        }
-        
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    document.getElementById("locationResult").innerText = `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`;
-                });
-            } else {
-                alert("A böngésződ nem támogatja a geolokációt.");
+        <input type="text" id="data" placeholder="Enter something">
+        <button onclick="saveData()">Save</button>
+        <button onclick="loadData()">Load</button>
+        <p id="output"></p>
+        <script>
+            function saveData() {
+                localStorage.setItem("info", document.getElementById("data").value);
             }
-        }
 
-        function startWorker() {
-            if (typeof Worker !== "undefined") {
-                let worker = new Worker(URL.createObjectURL(new Blob([`
-                    onmessage = function() {
-                        let count = 0;
-                        setInterval(() => postMessage(count++), 1000);
+            function loadData() {
+                const info = localStorage.getItem("info");
+                document.getElementById("output").innerText = info ? info : "No data found!";
+            }
+        </script>
+    </section>
+
+    <section>
+        <h2>Web Workers</h2>
+        <button onclick="startWorker()">Start Worker</button>
+        <p id="result"></p>
+        <script>
+            let worker;
+            function startWorker() {
+                if (typeof(Worker) !== "undefined") {
+                    if (!worker) {
+                        worker = new Worker(URL.createObjectURL(new Blob([`
+                            let count = 0;
+                            setInterval(() => {
+                                postMessage("Count: " + ++count);
+                            }, 1000);
+                        `], {type: 'application/javascript'})));
+                        worker.onmessage = function(event) {
+                            document.getElementById("result").innerText = event.data;
+                        };
                     }
-                `], {type: "text/javascript"})));
-                worker.onmessage = event => document.getElementById("workerResult").innerText = "Szám: " + event.data;
-                worker.postMessage("start");
+                } else {
+                    document.getElementById("result").innerText = "Web Workers are not supported!";
+                }
             }
-        }
+        </script>
+    </section>
 
-        function drag(event) {
-            event.dataTransfer.setData("text", event.target.id);
-        }
-    </script>
+    <section>
+        <h2>Geolocation API</h2>
+        <button onclick="getLocation()">Get Location</button>
+        <p id="location"></p>
+        <script>
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(position => {
+                        const lat = position.coords.latitude;
+                        const long = position.coords.longitude;
+                        document.getElementById("location").innerText = `Latitude: ${lat}, Longitude: ${long}`;
+                    });
+                } else {
+                    document.getElementById("location").innerText = "Geolocation not supported!";
+                }
+            }
+        </script>
+    </section>
+
+    <section>
+        <h2>Drag and Drop API</h2>
+        <div id="drag" draggable="true">Drag Me</div>
+        <div id="drop">Drop Here</div>
+        <script>
+            const dragItem = document.getElementById("drag");
+            const dropArea = document.getElementById("drop");
+
+            dragItem.addEventListener("dragstart", () => {
+                dragItem.style.backgroundColor = "red";
+            });
+
+            dragItem.addEventListener("dragend", () => {
+                dragItem.style.backgroundColor = "blue";
+            });
+
+            dropArea.addEventListener("dragover", event => {
+                event.preventDefault();
+            });
+
+            dropArea.addEventListener("drop", event => {
+                event.preventDefault();
+
+                const rect = dropArea.getBoundingClientRect();
+                const offsetX = event.clientX - rect.left;
+                const offsetY = event.clientY - rect.top;
+
+                const droppedElement = dragItem.cloneNode(true);
+                droppedElement.style.position = "absolute";
+                droppedElement.style.left = `${offsetX - dragItem.offsetWidth / 2}px`;
+                droppedElement.style.top = `${offsetY - dragItem.offsetHeight / 2}px`;
+                droppedElement.style.backgroundColor = "blue";
+
+                dropArea.innerHTML = "";
+                dropArea.style.position = "relative";
+                dropArea.appendChild(droppedElement);
+            });
+        </script>
+    </section>
+
+    <section>
+        <h2>Canvas: Five-Pointed Star</h2>
+        <canvas id="myCanvas" width="300" height="300"></canvas>
+        <script>
+            const canvas = document.getElementById("myCanvas");
+            const ctx = canvas.getContext("2d");
+
+            ctx.translate(150, 150);
+
+            const outerRadius = 100;
+            const innerRadius = 40;
+            const points = 5;
+            const angle = Math.PI / points;
+
+            ctx.beginPath();
+
+            for (let i = 0; i < 2 * points; i++) {
+                const radius = i % 2 === 0 ? outerRadius : innerRadius;
+                const x = Math.cos(i * angle - Math.PI / 2) * radius;
+                const y = Math.sin(i * angle - Math.PI / 2) * radius;
+                ctx.lineTo(x, y);
+            }
+
+            ctx.closePath();
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        </script>
+    </section>
+
+    <footer>
+        Készítők:<br>
+        Vágány Zoltán<br>
+        Fidesz János 
+    </footer>
+
 </body>
 </html>
