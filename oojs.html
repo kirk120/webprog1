@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-programozás-1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #1976d2;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: clamp(20px, 3vw, 32px);
+            font-weight: bold;
+            margin: 0;
+        }
+
+        nav {
+            background-color: #1976d2;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            display: block;
+            transition: all 0.2s ease-in-out;
+        }
+
+        nav a.active {
+            background-color: #64b5f6;
+            font-weight: bold;
+        }
+
+        /* aláhúzás rámutatáskor */
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            display: flex;
+            width: 80%;
+            margin: 20px 0;
+        }
+
+        aside, .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+            font-size: clamp(18px, 2.5vw, 28px);
+            min-height: 300px;
+            padding: 15px;
+        }
+
+        aside {
+            width: 20%;
+            background-color: #f2f2f2;
+        }
+
+        .content {
+            width: 80%;
+        }
+
+        footer {
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+        }
+     
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Kezdőlap</a>
+        <a href="crud.html">Táblázat</a>
+        <a href="html5.html">HTML5</a>
+        <a href="chartsjs.html">ChartJS</a>
+        <a href="ajax.html">AJAX</a>
+        <a href="oojs.html" class="active">OOJS</a>
+        <a href="react.html">React</a>
+    </nav>
+
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Motorkerékpár Gumiabroncs Katalógus</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                padding: 20px;
+            }
+            .tire-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            .tire-card {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 250px;
+            }
+            .tire-card h3 {
+                margin-top: 0;
+            }
+            .tire-card p {
+                margin: 5px 0;
+            }
+            button {
+                padding: 10px;
+                margin-top: 10px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #45a049;
+            }
+            #logContainer {
+                margin-top: 30px;
+                padding: 10px;
+                background-color: #333;
+                color: white;
+                border-radius: 10px;
+                max-height: 200px;
+                overflow-y: scroll;
+            }
+            #logContainer p {
+                margin: 0;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Motorkerékpár Gumiabroncs Katalógus</h1>
+        <div class="tire-container" id="tireContainer"></div>
+    
+        <button onclick="addRandomTire()">Véletlenszerű Gumi Hozzáadása</button>
+    
+        <div id="logContainer"></div>
+    
+        <script src="app.js"></script>
+    </body>
+    </html>
+    
