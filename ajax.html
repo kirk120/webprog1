@@ -3,6 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 Features</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #1976d2;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: clamp(20px, 3vw, 32px);
+            font-weight: bold;
+            margin: 0;
+        }
+
+        nav {
+            background-color: #1976d2;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            display: block;
+            transition: all 0.2s ease-in-out;
+        }
+
+        nav a.active {
+            background-color: #64b5f6;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            margin: 20px;
+            padding: 20px;
+            width: 80%;
+            border: 1px solid #ccc;
+        }
+
+        #drag {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            color: white;
+            text-align: center;
+            line-height: 100px;
+            cursor: move;
+        }
+
+        #drop {
+            width: 200px;
+            height: 200px;
+            border: 2px dashed #000;
+            position: relative; /* Fontos az elengedési pozíciókhoz */
+        }
+
+        canvas {
+            border: 1px solid #000;
+        }
+
+        footer {
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Kezdőlap</a>
+        <a href="crud.html">Táblázat</a>
+        <a href="html5.html">HTML5</a>
+        <a href="chartsjs.html">ChartJS</a>
+        <a href="ajax.html" class="active">AJAX</a>
+        <a href="oojs.html">OOJS</a>
+        <a href="react.html">React</a>
+    </nav>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AJAX API Kezelés</title>
     <script src="ajax.js" defer></script>
     <style>
