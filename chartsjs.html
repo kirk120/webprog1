@@ -13,7 +13,10 @@
             flex-direction: column;
             align-items: center;
         }
-
+        #myChart {
+        max-width: 700px;
+        max-height: 400px;
+        }
         header {
             background-color: #1976d2;
             color: white;
@@ -129,7 +132,7 @@
         </tbody>
     </table>
     
-    <canvas id="myChart" width="400" height="200"></canvas>
+    <canvas id="myChart"></canvas>
     
     <script>
         const tableBody = document.getElementById("tableBody");
