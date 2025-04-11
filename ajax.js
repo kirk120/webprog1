@@ -8,29 +8,41 @@ function validateFields(name, height, weight) {
 }
 
 function createData() {
-  const name = document.getElementById("createName").value;
-  const height = document.getElementById("createHeight").value;
-  const weight = document.getElementById("createWeight").value;
-
-  const error = validateFields(name, height, weight);
-  if (error) return showMessage("createMsg", error, true);
-
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      op: "create",
-      code: CODE,
-      name,
-      height,
-      weight
+    const name = document.getElementById("createName").value.trim();
+    const height = document.getElementById("createHeight").value.trim();
+    const weight = document.getElementById("createWeight").value.trim();
+  
+    if (!name || !height || !weight || name.length > 30 || height.length > 30 || weight.length > 30) {
+      document.getElementById("createStatus").textContent = "❌ Hiba: mezők nem lehetnek üresek és max 30 karakter hosszúak!";
+      return;
+    }
+  
+    const formData = new URLSearchParams();
+    formData.append("op", "create");
+    formData.append("code", "GF8NSNbbf209");
+    formData.append("name", name);
+    formData.append("height", height);
+    formData.append("weight", weight);
+  
+    fetch("http://gamf.nhely.hu/ajax2/", {
+      method: "POST",
+      body: formData
     })
-  })
-    .then(res => res.json())
-    .then(data => {
-      showMessage("createMsg", data.affectedRows === 1 ? "Sikeres mentés!" : "Mentés sikertelen!");
-    });
-}
+      .then(res => res.text()) // <- Mert nem JSON!
+      .then(text => {
+        if (text.trim() === "1") {
+          document.getElementById("createStatus").textContent = "✅ Sikeres létrehozás!";
+          document.getElementById("createForm").reset();
+          readData(); // frissítjük az adatokat
+        } else {
+          document.getElementById("createStatus").textContent = "❌ Sikertelen létrehozás.";
+        }
+      })
+      .catch(error => {
+        console.error("Hiba:", error);
+        document.getElementById("createStatus").textContent = "❌ Hiba történt a kérés során.";
+      });
+  }
 
 function getDataForId() {
   fetch(API_URL, {
@@ -41,7 +53,7 @@ function getDataForId() {
     .then(res => res.json())
     .then(data => {
       const id = document.getElementById("updateId").value;
-      const record = data.list.find(e => e.id === id);
+      const record = data.list.find(e => e.id == id);
       if (record) {
         document.getElementById("updateName").value = record.name;
         document.getElementById("updateHeight").value = record.height;
@@ -81,18 +93,43 @@ function updateData() {
 }
 
 function deleteData() {
-  const id = document.getElementById("deleteId").value;
+    const deleteId = document.getElementById("deleteId").value.trim();
+    const code = CODE; // Kódot itt helyben átadjuk
 
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `op=delete&code=${CODE}&id=${id}`
-  })
-    .then(res => res.json())
+    // Ellenőrizzük, hogy az ID nem üres
+    if (!deleteId) {
+        document.getElementById("deleteMsg").innerText = "Kérlek add meg a törlendő ID-t!";
+        return;
+    }
+
+    // API hívás a törléshez
+    fetch(API_URL, {
+        method: 'POST',
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+            op: 'delete',
+            code: CODE,
+            id: deleteId,
+            code: code
+        })
+    })
+    .then(response => response.text())  // Válasz szövegként jön vissza
     .then(data => {
-      showMessage("deleteMsg", data.affectedRows === 1 ? "Sikeres törlés!" : "Törlés sikertelen!", data.affectedRows !== 1);
+        // Ellenőrizzük a választ
+        if (data === '1') {
+            document.getElementById("deleteMsg").innerText = "✅ Sikeres törlés!";
+            readData();  // Frissítjük a listát
+        } else {
+            document.getElementById("deleteMsg").innerText = "❌ A törlés nem sikerült. Lehet, hogy hibás ID-t vagy kódot adtál meg.";
+        }
+    })
+    .catch(error => {
+        console.error("Hiba történt a törlés során:", error);
+        document.getElementById("deleteMsg").innerText = "❌ Hiba történt a törlés során.";
     });
 }
+
+
 
 function readData() {
   fetch(API_URL, {

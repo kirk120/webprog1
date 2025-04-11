@@ -126,11 +126,14 @@
         
           <h1>AJAX CRUD</h1>
           <h2>Adatok létrehozása</h2>
-          <input type="text" id="createName" placeholder="Név">
-          <input type="text" id="createHeight" placeholder="Magasság">
-          <input type="text" id="createWeight" placeholder="Súly">
-          <button onclick="createData()">Létrehozás</button>
-          <div id="createMsg"></div>
+          <form id="createForm">
+            <input type="text" id="createName" placeholder="Név">
+            <input type="text" id="createHeight" placeholder="Magasság">
+            <input type="text" id="createWeight" placeholder="Súly">
+            <button type="button" onclick="createData()">Létrehozás</button>
+          </form>
+          
+          <div id="createStatus"></div>
         
           <h2>Adatok frissítése</h2>
           <input type="text" id="updateId" placeholder="ID lekérdezéshez">
