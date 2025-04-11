@@ -120,55 +120,160 @@
     <a href="react.html">React</a>
 </nav>
 
-<main>
-    <aside>
-        Táblázat
-    </aside>
-    <div class="content">
-        <form id="form">
-            <input type="text" id="nev" placeholder="Név" required>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="text" id="varos" placeholder="Város" required>
-            <input type="number" id="kor" placeholder="Kor" min="0" max="120" required>
-            <button type="button" onclick="hozzaad()">Hozzáadás</button>
-        </form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Táblázat</title>
+    <style>
 
-        <input type="text" id="kereses" placeholder="Keresés..." onkeyup="szures()">
-
-        <table id="tabla">
-            <thead>
-                <tr>
-                    <th class="sortable" onclick="rendez(0)">Név</th>
-                    <th class="sortable" onclick="rendez(1)">Email</th>
-                    <th class="sortable" onclick="rendez(2)">Város</th>
-                    <th class="sortable" onclick="rendez(3)">Kor</th>
-                    <th>Művelet</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-torzs">
-                <tr>
-                    <td>Zoltán Zoltán</td>
-                    <td>zoltan.zoltan@gmail.com</td>
-                    <td>Budapest</td>
-                    <td>48</td>
-                    <td><button onclick="torol(this)">Törlés</button></td>
-                </tr>
-                <tr>
-                    <td>János János</td>
-                    <td>janos@gmail.com</td>
-                    <td>Budapest</td>
-                    <td>49</td>
-                    <td><button onclick="torol(this)">Törlés</button></td>
-                </tr>
-            </tbody>
-        </table>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        cursor: pointer;
+        background-color: #f2f2f2;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 4px;
+      }
+      .form-container {
+        margin: 20px 0;
+      }
+      .actions button {
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <div class="content">
+    <h1>CRUD Táblázat</h1>
+    <div class="form-container">
+      <form id="crudForm" novalidate>
+        <div>Név:</div><input type="text" id="name" placeholder="Név (min. 3, max. 20 karakter)" required minlength="3" maxlength="20">
+        <div>E-mail:</div><input type="text" id="email" placeholder="Email (pl. nev@example.com)" required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$">
+        <div>Telefonszám:</div><input type="text" id="phone" placeholder="Telefon (pl. +36201234567)" required pattern="^\+36\s(1|[2-9][0-9])\s[0-9]{6,7}$">
+        <div>Város:</div><input type="text" id="city" placeholder="Város (min. 2, max. 20 karakter)" required minlength="2" maxlength="20">
+        <button type="submit">Hozzáadás</button>
+      </form>
+      <div id="errorMsg" style="color:red; margin-top:10px;"></div>
     </div>
-</main>
-
+  
+    <input type="text" id="search" placeholder="Keresés...">
+  
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th data-col="0">Név</th>
+          <th data-col="1">Email</th>
+          <th data-col="2">Telefon</th>
+          <th data-col="3">Város</th>
+          <th>Művelet</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  
+    <script>
+      const form = document.getElementById('crudForm');
+      const tableBody = document.querySelector('#dataTable tbody');
+      const search = document.getElementById('search');
+      const errorMsg = document.getElementById('errorMsg');
+      let currentData = [];
+      let editIndex = -1;
+  
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+  
+        const name = document.getElementById('name');
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
+        const city = document.getElementById('city');
+        errorMsg.textContent = '';
+  
+        if (!form.checkValidity()) {
+          if (!name.validity.valid) {
+            errorMsg.textContent = 'Hiba a név mezőben: legalább 3 és legfeljebb 20 karakter hosszú legyen.';
+          } else if (!email.validity.valid) {
+            errorMsg.textContent = 'Hiba az email mezőben: helyes formátum pl. nev@example.com';
+          } else if (!phone.validity.valid) {
+            errorMsg.textContent = 'Hiba a telefon mezőben: csak számok, pl. +36201234567';
+          } else if (!city.validity.valid) {
+            errorMsg.textContent = 'Hiba a város mezőben: legalább 2 és legfeljebb 20 karakter hosszú legyen.';
+          }
+          return;
+        }
+  
+        if (editIndex >= 0) {
+          currentData[editIndex] = [name.value, email.value, phone.value, city.value];
+          editIndex = -1;
+        } else {
+          currentData.push([name.value, email.value, phone.value, city.value]);
+        }
+        renderTable();
+        form.reset();
+      });
+  
+      function renderTable(data = currentData) {
+        tableBody.innerHTML = '';
+        data.forEach((row, index) => {
+          const tr = document.createElement('tr');
+          row.forEach(cell => {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+          const actionTd = document.createElement('td');
+          actionTd.classList.add('actions');
+  
+          const delBtn = document.createElement('button');
+          delBtn.textContent = 'Törlés';
+          delBtn.onclick = () => {
+            currentData.splice(index, 1);
+            renderTable();
+          };
+  
+          const editBtn = document.createElement('button');
+          editBtn.textContent = 'Szerkesztés';
+          editBtn.onclick = () => {
+            document.getElementById('name').value = row[0];
+            document.getElementById('email').value = row[1];
+            document.getElementById('phone').value = row[2];
+            document.getElementById('city').value = row[3];
+            editIndex = index;
+          };
+  
+          actionTd.appendChild(editBtn);
+          actionTd.appendChild(delBtn);
+          tr.appendChild(actionTd);
+          tableBody.appendChild(tr);
+        });
+      }
+  
+      document.querySelectorAll('th[data-col]').forEach(th => {
+        th.addEventListener('click', () => {
+          const col = parseInt(th.dataset.col);
+          currentData.sort((a, b) => a[col].localeCompare(b[col]));
+          renderTable();
+        });
+      });
+  
+      search.addEventListener('input', () => {
+        const term = search.value.toLowerCase();
+        const filtered = currentData.filter(row => row.some(cell => cell.toLowerCase().includes(term)));
+        renderTable(filtered);
+      });
+    </script>
+</div>
 <footer>
-    Készítők:<br>
-    Vágány Zoltán<br> 
-    Fidesz János 
+    Készítette:<br> 
+    Vágány Zoltán - GF8NSN<br>
+    Fidesz János  - JQVPJ7
 </footer>
 
 <script src="crud.js" defer></script>
