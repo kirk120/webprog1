@@ -2,6 +2,7 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
+
     <title>Táblázat</title>
     <style>
         body {
@@ -14,11 +15,11 @@
         }
 
         header {
-            background-color: #1976d2;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            width: 100%;
+          background-color: #1976d2;
+          color: white;
+          padding: 20px;
+          text-align: center;
+          width: 100%;
         }
 
         header h1 {
@@ -90,18 +91,15 @@
             cursor: pointer;
             background-color: #e0e0e0;
         }
-
-        input {
-            margin: 5px;
-        }
-
-        footer {
+       footer {
             background-color: #1976d2;
             color: white;
             text-align: center;
             padding: 15px;
             width: 100%;
         }
+
+
     </style>
 </head>
 <body>
@@ -128,8 +126,10 @@
 
       table {
         border-collapse: collapse;
-        width: 100%;
+        width: 50%;
+        text-align: center;
       }
+ 
       th, td {
         border: 1px solid #ccc;
         padding: 8px;
@@ -145,6 +145,8 @@
       }
       .form-container {
         margin: 20px 0;
+        width: 50%;
+        
       }
       .actions button {
         margin-right: 5px;
@@ -202,7 +204,7 @@
           } else if (!email.validity.valid) {
             errorMsg.textContent = 'Hiba az email mezőben: helyes formátum pl. nev@example.com';
           } else if (!phone.validity.valid) {
-            errorMsg.textContent = 'Hiba a telefon mezőben: csak számok, pl. +36 20 1234567';
+            errorMsg.textContent = 'Hiba a telefon mezőben: csak számok, pl. +36 201234567';
           } else if (!city.validity.valid) {
             errorMsg.textContent = 'Hiba a város mezőben: legalább 2 és legfeljebb 20 karakter hosszú legyen.';
           }
